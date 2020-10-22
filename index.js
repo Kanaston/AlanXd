@@ -1,3 +1,5 @@
+const infoTable = document.querySelector('#infoTable')
+
 const infoData = {
   mark: { ASUS: 8, MSI: 10, GIGABYTE: 8, EVGA: 9, ZOTAC: 7 },
   model: {
@@ -50,3 +52,34 @@ const infoData = {
   vram: { 4: 5, 6: 6, 8: 7, 10: 9, "11+": 10 },
   memType: { GGDR5: 7, GDDR5X: 8, GDDR6: 9, GDDR6X: 10 },
 };
+const initInfoTable = () => {
+  /* Get max att of data */
+  let maxRows = 0;
+  Object.keys(infoData).forEach((data) => {
+    const dataLen = Object.keys(infoData[data]).length;
+    maxRows = dataLen > maxRows ? dataLen : maxRows;
+  });
+
+  for(let i=0;i<maxRows;i++){
+    var row = infoTable.insertRow(-1);
+    for(let j=0;j<infoTable.rows[0].cells.length;j++){
+        var cell = row.insertCell(j);
+    }
+  }
+
+  let cellIndex = 0;
+  let rowIndex = 1;
+  Object.keys(infoData).forEach((data) => {
+    
+    Object.keys(infoData[data]).forEach((element) => {
+      let elementData = infoData[data][element];
+        infoTable.rows[rowIndex].cells[cellIndex].innerHTML = element
+        infoTable.rows[rowIndex].cells[cellIndex+1].innerHTML = elementData
+        rowIndex++
+    });
+    rowIndex=1;
+    cellIndex+=2
+  });
+};
+initInfoTable();
+// Add some text to the new cells:
