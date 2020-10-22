@@ -19,7 +19,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-sm-3">
-              (Categorias)Renglones:
+              Renglones:
               <input type="text" class="form-control" id="txtRow"/>
             </div>
             <div class="col-sm-2">
@@ -31,7 +31,7 @@
               </button>
             </div>
             <div class="col-sm-3">
-              (Demandas)Columnas:
+              Columnas:
               <input type="text" class="form-control" id="txtColumn"/>
             </div>
             <div class="col-sm-2">
@@ -41,7 +41,15 @@
                 </svg><br />
                 Demandas
               </button>
-            </div>            
+            </div> 
+            <div class="col-sm-2">
+                valor:
+                <input type="text" class="form-control" id="txtV" />
+            </div>
+          </div>
+
+          <div class="row" id="divPesos">
+
           </div>
         </div>
       </div>
@@ -59,6 +67,12 @@
                 <tbody id="tBody"></tbody>
               </table>
             </div>
+            <div class="col-sm-12">
+                <table class="table table-bordered text-center" id="tblReult">
+                    <thead id="tHeadR"></thead>
+                    <tbody id="tBodyR"></tbody>
+                </table>
+            </div>
           </div>
         </div>
       </div>
@@ -72,12 +86,14 @@
   <script type="text/javascript">
       var objDatos = {
           Categorias_row: [],
+          Col_Result: ["#","MAXIMIN","MAXIMAX","LAPLACE","OPTIM-PESIM","MINIMAX"],
           Demandas_col: ["#"],
           Datos: [],
+          Pesos:[],
           Maximin: function () {
               var data = Enumerable.from(objDatos.Datos)
-              .orderBy(function (x) { return x.Value })
-              .firstOrDefault();
+                  .orderBy(function (foo) { return foo.Value })
+                  .firstOrDefault();
               return Enumerable.from(objDatos.Datos)
                   .where(function (foo) { return foo.Value == data.Value })
                   .toArray();
@@ -89,12 +105,141 @@
               return Enumerable.from(objDatos.Datos)
                   .where(function (foo) { return foo.Value == data.Value })
                   .toArray();
+          },
+          OptimPesim: function (p) {
+              var gradoOpti = parseFloat(p) / 100;
+              var gradPsi = (100 - parseFloat(p)) / 100;
+              
+              var ganador = 0;
+              var indexGanador = 0;
+
+              for (x = 0; x <= objDatos.Categorias_row.length - 1; x++) {
+                  grandote = Enumerable.from(objDatos.Datos)
+                      .where(function (foo) { return foo.Category == objDatos.Categorias_row[x] })
+                      .orderByDescending(function (foo) { return foo.Value })
+                      .firstOrDefault();
+
+                  chiquito = Enumerable.from(objDatos.Datos)
+                      .where(function (foo) { return foo.Category == objDatos.Categorias_row[x] })
+                      .orderBy(function (foo) { return foo.Value })
+                      .firstOrDefault();
+
+
+                  var result = gradoOpti * grandote.Value + gradPsi * chiquito.Value;
+                  if (result >= ganador) {
+                      ganador = result;
+                      indexGanador = x;
+                  }
+              }
+
+              return {
+                  IndexGanado: indexGanador,
+                  ResltadoGanador: ganador,
+                  Ganador: objDatos.Categorias_row[indexGanador]
+              };
+          },
+          Laplace: function () {
+              var prom = 0;
+              var ganador = "";
+              for (x = 0; x <= objDatos.Categorias_row.length - 1; x++) {
+                  var data = Enumerable.from(objDatos.Datos).where(function (foo) { return foo.Category == objDatos.Categorias_row[x]; }).toArray();
+
+                  var sum = 0;
+                  for (y = 0; y <= data.length - 1; y++)
+                      sum += parseFloat(data[y].Value);
+
+                  var promAux = sum / data.length;
+
+                  if (promAux >= prom) {
+                      prom = promAux;
+                      ganador = objDatos.Categorias_row[x];
+                  }
+                  
+              }
+
+              return { Promedio: prom, Ganador: ganador };
+
+          },
+          Minimax: function () {
+              var value = 50000;
+              var ganador = "";
+              for (x = 0; x <= objDatos.Categorias_row.length - 1; x++) {
+                  var data = Enumerable.from(objDatos.Datos)
+                      .where(function (foo) { return foo.Category == objDatos.Categorias_row[x]; })
+                      .orderByDescending(function (foo) { return foo.Value })
+                      .firstOrDefault();
+
+                  var valueAux = data.Value
+
+                  if (value >= valueAux) {
+                      value = valueAux;
+                      ganador = objDatos.Categorias_row[x];
+                  }
+
+              }
+
+              return { Ganador: ganador, Value: value };
+              
           }
       };
 
       var tHead = $("#tHead");
       var tBody = $("#tBody");
+      //var tHeadR = $("#tHeadR");
+      //var tBodyR = $("#tBodyR");
 
+      //function fn_build_table_reults() {
+      //    if (objDatos.Col_Result.length > 0 && objDatos.Categorias_row.length > 0) {
+      //        tHeadR.empty();
+      //        trHead = $("<tr />").attr("style", "background-color: #3a3a3a;font-size: 20px;color: white;font-weight: bold;");
+
+      //        $.each(objDatos.Col_Result, function (k, a) {
+      //            td = $("<td />").append(a);
+      //            trHead.append(td);
+      //        });
+
+      //        tHeadR.append(trHead);
+      //        tBodyR.empty();
+
+      //        $.each(objDatos.Categorias_row, function (k, a) {
+      //            tr = $("<tr />");
+      //            tdName = $("<td />").append(a).attr("style", "background-color: #3a3a3a;font-size: 20px;color: white;font-weight: bold;");
+      //            tr.append(tdName);
+      //            for (x = 0; x <= objDatos.Col_Result.length - 2; x++) {
+      //                tdValue = $("<td />").addClass("td-value")
+      //                    .data("data-position", x + 1)
+      //                    .data("data-obj", { Position: x + 1, Category: a, Value: 0 })
+      //                    .attr("id", a + (x + 1).toString())
+
+      //                tr.append(tdValue);
+
+      //                var isAdd = true;
+      //                if (objDatos.Datos.length > 0) {
+      //                    for (y = 0; y <= objDatos.Datos.length - 1; y++) {
+      //                        if (objDatos.Datos[y].Position == (x + 1) && objDatos.Datos[y].Category == a) {
+      //                            isAdd = false;
+      //                            break;
+      //                        }
+      //                    }
+      //                }
+
+      //                if (isAdd) {
+      //                    objDatos.Datos.push({ Position: x + 1, Category: a, Value: 0 });
+      //                }
+      //            }
+      //            tBodyR.append(tr);
+      //        });
+
+      //        var valor = parseFloat($("#txtV").val());
+      //        var maximin = objDatos.Maximin();
+      //        var maximax = objDatos.Maximax();
+      //        var laplace = objDatos.Laplace(valor);
+      //        var opt_pes = objDatos.OptimPesim();
+      //        var minimax = objDatos.Minimax();
+
+      //        console.log(minimax);
+      //    }
+      //}
 
       function fn_add_categoria() {
           var value = $("#txtRow").val();
@@ -116,11 +261,16 @@
           }
 
           var data = {
-              Position: objDatos.Demandas_col.length + 1,
+              Position: objDatos.Demandas_col.length,
               Nombre: value
           };
 
           objDatos.Demandas_col.push(data);
+          objDatos.Pesos.push($("<input />")
+              .attr("type", "number")
+              .data("data-column", value)
+              .addClass("form-control"));
+
           $("#txtColumn").val("");
 
           fn_build_table();
@@ -172,6 +322,7 @@
               });
 
               fn_reload_values();
+              fn_add_input_pesos();
           }
       }
 
@@ -195,6 +346,17 @@
                   .where(function (x) { return x.Category == dataObj.Category && x.Position == dataObj.Position })
                   .firstOrDefault()
               $(this).text(value.Value);
+          });
+
+      }
+
+      function fn_add_input_pesos() {
+          var cont = 0;
+          $("#divPesos").each(function () {
+              div = $("<div />").addClass("col-sm-2");
+              div.append(objDatos.Pesos[cont]);
+              cont++;
+              $("#divPesos").append(div);
           });
       }
 
