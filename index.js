@@ -5,16 +5,16 @@ const infoTable = document.querySelector("#infoTable");
 const infoData = {
   mark: { ASUS: 8, MSI: 10, GIGABYTE: 8, EVGA: 9, ZOTAC: 7 },
   model: {
-    "RX-5600-XT": 8,
-    "RTX-2060-SUPER": 9,
-    "GTX-1660-SUPER": 8,
-    "RX-5700-XT": 9,
-    "GTX-1660-TI": 8,
-    "RTX-2080-TI": 9,
-    "GTX-1650-SUPER": 7,
-    "RX-5500-XT": 7,
-    "GTX-1080": 8,
-    "RTX-3080": 10,
+    "RX 5600XT": 8,
+    "RTX 2060 SUPER": 9,
+    "GTX 1660 SUPER": 8,
+    "RX 5700XT": 9,
+    "GTX 1660 TI": 8,
+    "RTX 2080 TI": 9,
+    "GTX 1650 SUPER": 7,
+    "RX 5500XT": 7,
+    "GTX 1080": 8,
+    "RTX 3080": 10,
   },
   price: {
     "4000-6000": 10,
@@ -123,3 +123,4 @@ initInfoTable();
 fn_table_head();
 fn_table_body();
 // Add some text to the new cells:
+
