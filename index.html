@@ -7,16 +7,24 @@
   <title>Toma de decisiones</title>
   <link rel="stylesheet" href="css/bootstrap.css" />
   <!-- CSS -->
+  <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
   <!-- Default theme -->
   <link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
   <link rel="stylesheet" href="css/prron.css" />
 </head>
 
+<!--  -->
+
 <!-- Info Table -->
-<table id="infoTable" class="table">
-    <thead class="thead-dark">
-      <tr>
+<div class="container">
+  <table class="table table-bordered" id="tbl">
+  </table>
+</div>
+<div class="container">
+  <table id="infoTable" class="table  table-bordered">
+    <thead >
+      <tr class="thead-dark">
         <th scope="col">Marca</th>
         <th scope="col">.</th>
         <th scope="col">Modelo</th>
@@ -42,6 +50,8 @@
     <tbody>
     </tbody>
   </table>
+</div>
+
   <script type="text/javascript" src="js/jquery.js"></script>
   <script type="text/javascript" src="js/alertify.js"></script>
   <script type="text/javascript" src="js/bootstrap.js"></script>
