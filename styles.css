@@ -1,5 +1,10 @@
+
+
 .xd{
     background-color: rgb(88, 88, 88);
     color: white;
     font-weight: bold;
+}
+.hiden{
+    display: none;
 }

@@ -18,48 +18,55 @@
 
 <div class="container mb-5 mt-5">
   <form id="formPesos">
-    <h2>Pesos de attributos</h2>
+    <h2>Recomendación de productos</h2>
     <br>
     <div class="form-group">
-      <input type="number" class="form-control" id="marca" placeholder="Marca">
+      <input type="number" class="form-control" max="100" min="0" id="marca" placeholder="Marca">
     </div>
     <div class="form-group">
-      <input type="number" class="form-control" id="modelo" placeholder="Modelo">
+      <input type="number" class="form-control" max="100" min="0" id="modelo" placeholder="Modelo">
     </div>
     <div class="form-group">
-      <input type="number" class="form-control" id="precio" placeholder="Precio">
+      <input type="number" class="form-control" max="100" min="0" id="precio" placeholder="Precio">
     </div>
     <div class="form-group">
-      <input type="number" class="form-control" id="frecuencia" placeholder="Frecuencia">
+      <input type="number" class="form-control" max="100" min="0" id="frecuencia" placeholder="Frecuencia">
     </div>
     <div class="form-group">
-      <input type="number" class="form-control" id="ventiladores" placeholder="Ventiladores">
+      <input type="number" class="form-control" max="100" min="0" id="ventiladores" placeholder="Ventiladores">
     </div>
     <div class="form-group">
-      <input type="number" class="form-control" id="nucleos" placeholder="Nucleos">
+      <input type="number" class="form-control" max="100" min="0" id="nucleos" placeholder="Nucleos">
     </div>
     <div class="form-group">
-      <input type="number" class="form-control" id="consumo" placeholder="Consumo">
+      <input type="number" class="form-control" max="100" min="0" id="consumo" placeholder="Consumo">
     </div>
     <div class="form-group">
-      <input type="number" class="form-control" id="arquitectura" placeholder="Arquitectura">
+      <input type="number" class="form-control" max="100" min="0" id="arquitectura" placeholder="Arquitectura">
     </div>
     <div class="form-group">
-      <input type="number" class="form-control" id="vram" placeholder="VRAM">
+      <input type="number" class="form-control" max="100" min="0" id="vram" placeholder="VRAM">
     </div>
     <div class="form-group">
-      <input type="number" class="form-control" id="tipoMemoria" placeholder="Tipo de memoria">
+      <input type="number" class="form-control" max="100" min="0" id="tipoMemoria" placeholder="Tipo de memoria">
     </div>
-    <button type="button" class="btn btn-primary btn-block">Submit</button>
+    <button type="button" class="btn btn-primary btn-block mt-4">Aplicar</button>
   </form>
 </div>
 
 <!-- Info Table -->
+<hr>
 <div class="container">
+  <button type="button" class="btn btn-primary btn-block mb-5" onclick="hideTable(tbl)">Tabla de Evaluacion</button>
+</div>
+<div class="container overflow-auto">
   <table class="table table-bordered" id="tbl">
   </table>
 </div>
 <div class="container">
+  <button type="button" class="btn btn-primary btn-block mb-5"  onclick="hideTable(infoTable)">Tabla de productos</button>
+</div>
+<div class="container overflow-auto">
   <table id="infoTable" class="table  table-bordered">
     <thead >
       <tr class="thead-dark">
@@ -89,7 +96,8 @@
     </tbody>
   </table>
 </div>
-<div class="container">
+<div class="container overflow-auto">
+ <h2 class="mb-3">Producto Recomendado</h2>
   <table class="table table-bordered" id="tbF">
   </table>
 </div>

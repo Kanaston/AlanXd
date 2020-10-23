@@ -1,5 +1,17 @@
 const infoTable = document.querySelector("#infoTable");
+const tbl = document.querySelector("#tbl")
 
+infoTable.classList.add('hiden')
+tbl.classList.add('hiden')
+
+const hideTable = (table)=>{
+  if(table.classList.contains('hiden')){
+    table.classList.remove('hiden')
+  }else{
+    table.classList.add('hiden')
+  }
+
+}
 // Tabla perrona
 
 const infoData = {
@@ -131,14 +143,20 @@ function fn_table_head_F() {
 }
 
 const calculateInterval = (interval, value) => {
-  if (interval.contains("-")) {
+  if (interval.includes("-")) {
     const values = interval.split("-");
-    if (value >= values[0] && value <= values[1]) {
+    if (value >= Number(values[0]) && value <= Number(values[1])) {
+      return interval;
+    } else {
+      return value;
+    }
+  } else if (interval.includes("+")) {
+    const values = interval.split("+");
+    if (value >= Number(values[0])) {
       return interval;
     }
-  } else if (interval.contains("+")) {
   }
-  return false;
+  return value;
 };
 
 function fn_table_body_F() {
@@ -154,9 +172,13 @@ function fn_table_body_F() {
         Object.keys(infoData).forEach((data, index) => {
           if (a.Columna === index) {
             if (typeof a.Dato === "string") {
-              Object.keys(infoData[data]).forEach((ndata,index) => {  
-                if(infoData[data][ndata]){
-                  
+              if (a.Columna === 3 || a.Columna === 5 || a.Columna === 6) {
+                a.Dato.match(/[0-9]+/g).map(number=>a.Dato = Number(number));
+              }
+              Object.keys(infoData[data]).forEach((ndata, index) => {
+                const interval = calculateInterval(ndata, Number(a.Dato));
+                if (interval === ndata) {
+                  a.Dato = interval;
                 }
               });
               td = $("<td />").append(infoData[data][a.Dato.toUpperCase()]);
