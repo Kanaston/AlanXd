@@ -3,8 +3,8 @@ const infoTable = document.querySelector("#infoTable");
 // Tabla perrona
 
 const infoData = {
-  mark: { ASUS: 8, MSI: 10, GIGABYTE: 8, EVGA: 9, ZOTAC: 7 },
-  model: {
+  MARCA: { ASUS: 8, MSI: 10, GIGABYTE: 8, EVGA: 9, ZOTAC: 7 },
+  MODELO: {
     "RX 5600XT": 8,
     "RTX 2060 SUPER": 9,
     "GTX 1660 SUPER": 8,
@@ -16,7 +16,7 @@ const infoData = {
     "GTX 1080": 8,
     "RTX 3080": 10,
   },
-  price: {
+  PRECIO: {
     "4000-6000": 10,
     "6000-8000": 9,
     "8000-11000": 8,
@@ -24,17 +24,17 @@ const infoData = {
     "16000-20000": 6,
     "20000+": 5,
   },
-  frecuency: {
+  FRECUENCIA: {
     "1300-1500": 8,
     "1500-1600": 9,
     "1600+": 10,
   },
-  fans: {
+  VENTILADORES: {
     1: 6,
     2: 8,
     3: 10,
   },
-  cores: {
+  NUCLEOS: {
     "1200-1500": 4,
     "1500-2000": 5,
     "2000-2500": 6,
@@ -43,16 +43,16 @@ const infoData = {
     "4000-6000": 9,
     "6000+": 10,
   },
-  cons: {
+  CONSUMO: {
     "100-150": 10,
     "150-200": 9,
     "200-250": 7,
     "250-300": 6,
     "300+": 4,
   },
-  arq: { RDNA: 9, "RT-DLSS": 10, "NVIDIA-TURING": 9 },
-  vram: { 4: 5, 6: 6, 8: 7, 10: 9, "11+": 10 },
-  memType: { GGDR5: 7, GDDR5X: 8, GDDR6: 9, GDDR6X: 10 },
+  ARQUITECTURA: { RDNA: 9, "RT Y DLSS": 10, "NVIDIA TURING": 9 },
+  VRAM: { 4: 5, 6: 6, 8: 7, 10: 9, "11+": 10 },
+  "TIPO DE MEMORIA": { GGDR5: 7, GDDR5X: 8, GDDR6: 9, GDDR6X: 10 },
 };
 
 const initInfoTable = () => {
@@ -119,8 +119,62 @@ function fn_table_body() {
   }
 }
 
+var tablaFinal = $("#tbF");
+
+function fn_table_head_F() {
+  var trEnca = $("<tr />").addClass("xd");
+  $.each(objTable.Enca, (key, a) => {
+    td = $("<td />").append(a.Nombre);
+    trEnca.append(td);
+  });
+  tablaFinal.append(trEnca);
+}
+
+const calculateInterval = (interval, value) => {
+  if (interval.contains("-")) {
+    const values = interval.split("-");
+    if (value >= values[0] && value <= values[1]) {
+      return interval;
+    }
+  } else if (interval.contains("+")) {
+  }
+  return false;
+};
+
+function fn_table_body_F() {
+  for (x = 0; x <= 9; x++) {
+    var tr = $("<tr />");
+    $.each(
+      Enumerable.from(objTable.Datos)
+        .where((foo) => {
+          return parseInt(foo.Renglon) == x;
+        })
+        .toArray(),
+      (key, a) => {
+        Object.keys(infoData).forEach((data, index) => {
+          if (a.Columna === index) {
+            if (typeof a.Dato === "string") {
+              Object.keys(infoData[data]).forEach((ndata,index) => {  
+                if(infoData[data][ndata]){
+                  
+                }
+              });
+              td = $("<td />").append(infoData[data][a.Dato.toUpperCase()]);
+            } else {
+              td = $("<td />").append(infoData[data][a.Dato]);
+            }
+            tr.append(td);
+          }
+        });
+      }
+    );
+    tablaFinal.append(tr);
+  }
+}
+
 initInfoTable();
 fn_table_head();
 fn_table_body();
+fn_table_head_F();
+fn_table_body_F();
 // Add some text to the new cells:
-
